@@ -21,7 +21,7 @@ var configDB = require('./config/database.js');
 
 // Using `mongoose.connect`...
 var promise = mongoose.connect(configDB.url, {
-  useMongoClient: true,
+  useMongoClient: true
   /* other options */
 });
 
@@ -55,4 +55,4 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 
 // launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
+console.log('Happily running on port ' + port);
