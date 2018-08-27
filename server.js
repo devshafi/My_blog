@@ -50,11 +50,12 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(express.static('public')); // static folder for direct use
 
-// routes ======================================================================
-require('./app/routes/route_profile.js')(app, passport); 
+// all the routes routes ==================================================
+require('./app/routes/route_profile.js')(app, passport);  // load our routes and pass in our app and fully configured passport
 require('./app/routes/route_paypal.js')(app); 
+require('./app/routes/route_static.js')(app); 
 
-// load our routes and pass in our app and fully configured passport
+
 
 // launch ======================================================================
 app.listen(port);
