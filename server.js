@@ -22,7 +22,7 @@ var configDB = require('./config/database.js');
 // Using `mongoose.connect`...
 var promise = mongoose.connect(configDB.url, {
   useMongoClient: true
-  /* other options */
+  /* other options gose here */
 });
 
 require('./config/passport')(passport); // pass passport for configuration
