@@ -1,0 +1,43 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+        <title>Shafi's Blog</title>
+        <link rel="icon" type="image/ico" href="/images/title_icon/title_icon.png" />
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> load bootstrap css -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap_css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">load fontawesome -->
+    
+    <!-- my own custom css -->
+    <link rel="stylesheet" type="text/css" href="/css/custom_style.css">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+
+
+      <!-- including nav_bar using ejs -->
+     <%- include ../include/nav_bar_without_login.ejs %> 
+
+<div class="container">
+   
+    <div class="jumbotron my-5">
+        <h1>Paypal payment success <span></span></h1>
+        <p class="lead">Your paypal payment is completed successfully</p>
+        <a class="btn btn-lg btn-primary" href="/" role="button">Go back to home &raquo;</a>
+      </div>
+    </div>
+
+</div>
+
+   <!-- loading footer using ejs include -->
+   <%- include ../include/footer.ejs %>
+</body>
+</html>
+
