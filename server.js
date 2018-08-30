@@ -21,7 +21,7 @@ var configDB = require('./config/database.js');
 
 // Using `mongoose.connect`...
 var promise = mongoose.connect(configDB.url, {
-  useMongoClient: true
+   useMongoClient: true
   /* other options gose here */
 });
 
@@ -38,7 +38,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 // get information from html forms
 // support parsing of application/json type post data
 app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
+//support parsing of application/x-www-form-urlencoded p ost data
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
@@ -53,7 +53,7 @@ app.use(express.static('public')); // static folder for direct use
 // all the routes routes ==================================================
 require('./app/routes/route_profile.js')(app, passport);  // load our routes and pass in our app and fully configured passport
 require('./app/routes/route_paypal.js')(app); 
-require('./app/routes/route_static.js')(app); 
+require('./app/routes/route_static.js')(app);
 
 
 
