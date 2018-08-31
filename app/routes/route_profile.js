@@ -1,6 +1,16 @@
 // getting the post model
 const Post = require('../models/post');
 
+// nod-mailer for email verification
+const nodemailer = require('nodemailer');
+
+// load up the user model
+var User = require('../models/user');
+
+// getting 'dotenv' module for accessing environment variable data(secure data)
+require('dotenv').config();
+
+
 module.exports = function (app, passport) {
 
     // =====================================
@@ -43,7 +53,7 @@ module.exports = function (app, passport) {
 
 
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
+    app.post('/signup',sendMailForUserVerification, passport.authenticate('local-signup', {
         successRedirect: '/', // redirect to the secure profile section
         failureRedirect: '/signup', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
@@ -117,9 +127,50 @@ module.exports = function (app, passport) {
             }
         });
        
-
-
     });
+
+
+    // email-verification call back api from gmail
+    app.get('/verify',function(req,res){
+        console.log(req.protocol+":/"+req.get('host'));
+        if((req.protocol+"://"+req.get('host'))==("http://"+host))
+        {
+            console.log("Domain is matched. Information is from Authentic email");
+            if(req.query.id==rand)
+            {
+                console.log("email is verified");
+                console.log(req.user);
+                
+                // if user comes from correct link, update user's isVerified variable in database
+                const id = req.user._id;
+                console.log("user id is "+id);
+                User.findById(id, function (err, user) {
+                    if (err) return handleError(err);
+
+                    user.local.isVerified = true;
+                    user.save(function (err, updatedUser) {
+
+                      if (err) return handleError(err);
+                      //res.send(updatedUser);
+                      const url = "http://localhost:8080";
+                      res.end("<h1>Email "+mailOptions.to+" is successfully verified</br>"+
+                      "<a href="+url+">Go back to home</a>");
+                    
+                    });
+                  });
+            }
+            else{
+                console.log("email is not verified");
+                res.end("<h1>Bad Request</h1>");
+            }
+        }
+        else
+        {
+            res.end("<h1>Request is from unknown source");
+        }
+        });
+
+
 };
 
 
@@ -133,6 +184,60 @@ function isLoggedIn(req, res, next) {
     // if they aren't redirect them to the home page
     res.redirect('/');
 }
+
+
+// =====================================
+// Email-verfication ===================
+// =====================================
+
+// route middlewear to send email to the user for verification
+// setting smtp requiremet for sending mail to the user
+
+// getting email and password of the app for send mail to the user
+// in this blog, it is my email and password,
+// which I saved in .env file
+const nodmailerRequirement = require('../../config/auth');
+
+const smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: process.env.MY_GMAIL_ID,     // loading from environment variable
+        pass: process.env.MY_GMAIL_PASS    // loading from environment variable
+    }
+});
+let rand,mailOptions,host,link;
+
+
+// custom middleware for sending email verification mail
+function sendMailForUserVerification(req,res,next){
+   
+    // creating random number for checking if user is fake or not
+    rand=Math.floor((Math.random() * 1000) + 54);
+    host=req.get('host');
+    link="http://"+req.get('host')+"/verify?id="+rand;
+    
+    // nodemailer mail option setup
+    mailOptions={
+        to : req.body.email,
+        subject : "Please confirm your Email account",
+        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+    };
+
+    console.log(mailOptions);
+
+    // sending email
+    smtpTransport.sendMail(mailOptions, function(error, response){
+     if(error){
+            console.log(error);
+            res.send(error);
+     }else{
+            
+        console.log("Message sent: " + response.message);
+        return next();             // if mail is sent the go for signup
+    }
+    });
+}
+
 
 function isUserInSession(req, res) {
 

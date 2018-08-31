@@ -2,11 +2,14 @@
 //getting paypal-rest-sdk module
 const paypal = require('paypal-rest-sdk');
 
+// getting 'dotenv' module for accessing environment variable data(secure data)
+require('dotenv').config();
+
 // configuring paypal
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
-    'client_id': 'AfFcr8IRqecpCe-xfCmy1RBA0jp4usurpFIJm8dFDgN7IM_XhHdzr-wiWDGcRaVYEkgQOe5t8c5u5LG0',
-    'client_secret': 'EHQKzSZZQkjusNhW2pnftlq5TyfgK6HfDlU8ZR-HazQN_n8vhIOwjwSSsBM-DD_yE-s18TE3YstYwAu1'
+    'client_id': process.env.PAYPAL_CLIENT_ID,              // loading from environment variable
+    'client_secret': process.env.PAYPAL_CLIENT_SECRET       // loading from environment variable
   });
 
 

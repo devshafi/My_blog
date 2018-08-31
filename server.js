@@ -20,9 +20,9 @@ var configDB = require('./config/database.js');
 // mongoose.connect(configDB.url);  // this is deprecated method of connecting database
 
 // Using `mongoose.connect`...
-var promise = mongoose.connect(configDB.url, {
-   useMongoClient: true
+mongoose.connect(configDB.url, {
   /* other options gose here */
+  useNewUrlParser: true
 });
 
 require('./config/passport')(passport); // pass passport for configuration

@@ -48,18 +48,21 @@
               </ul>
 
 
-              <form class="form-inline my-2 my-lg-0">
+              <form class="form-inline my-lg-0">
 
-              <!-- if user is logged in show his email and logout button or show login button -->
-              <%if(user) {%>
-                <div class="mr-2">
-                    <h4 class="text-light mb-0" >You are logged in as</h3>
-                    <h6 class="text-success "><%= user.local.email %></h6> 
-                </div>
-                <a href="/logout" class="btn btn-primary mr-2">Logout</a>
-              <% }else {%>
-                <a href="/login" class="btn btn-primary mr-2">Login here</a>
-                <%}%>
+                <!-- if user is logged in show his email and logout button or show login button -->
+                <%if(user) {%>
+                  <div class="mr-4">
+                      <h5 class="text-light mb-0" >You are logged in as</h3>
+                      <h6 class="text-success mb-0"><%= user.local.email %></h6> 
+                      <% if (user.local.isVerified == false) {%>
+                      <p class="text-warning my-0">(not verified!)</p>
+                      <%}%>
+                  </div>
+                  <a href="/logout" class="btn btn-primary mr-2">Logout</a>
+                <% }else {%>
+                  <a href="/login" class="btn btn-primary mr-2">Login here</a>
+                  <%}%>
 
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
